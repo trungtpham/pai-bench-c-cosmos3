@@ -18,7 +18,7 @@ Physical AI Bench (PAI-Bench) is a comprehensive benchmark suite for evaluating 
 - **Reason**: Evaluates understanding of physical scenes.
 
 <p align="center">
-  <img src="assets/physical-ai-bench-flow-chart-20250923.png" alt="Physical AI Bench Overview" width="100%">
+  <img src="assets/physical-ai-bench-teaser-20250928.png" alt="Physical AI Bench Overview" width="100%">
 </p>
 
 ## Datasets

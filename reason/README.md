@@ -19,6 +19,10 @@ uv pip install -e .
 
 ## Usage
 
+The overall evaluation pipeline is illustrated below:
+
+![Evaluation Pipeline](../assets/reason-flowchart-20250928.png)
+
 Run inference on a Hugging Face dataset using tensor parallelism:
 
 ```bash
