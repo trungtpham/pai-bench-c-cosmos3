@@ -6,6 +6,9 @@
   <img src="https://img.shields.io/badge/Python-3.10-blue.svg" alt="Python Version">
   <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
   <img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Datasets-orange" alt="Hugging Face">
+  <a href="https://huggingface.co/spaces/shi-labs/physical-ai-bench-leaderboard">
+    <img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Leaderboard-orange" alt="Hugging Face">
+  </a>
   <img src="https://img.shields.io/badge/Paper-Coming%20Soon-yellow" alt="Paper Coming Soon">
 </p>
 
@@ -28,6 +31,11 @@ Physical AI Bench (PAI-Bench) is a comprehensive benchmark suite for evaluating 
 | **Predict**  | [🤗 physical-ai-bench-predict](https://huggingface.co/datasets/shi-labs/physical-ai-bench-predict)   | [Link](./predict)  |
 | **Transfer** | [🤗 physical-ai-bench-transfer](https://huggingface.co/datasets/shi-labs/physical-ai-bench-transfer) | [Link](./transfer) |
 | **Reason**   | [🤗 physical-ai-bench-reason](https://huggingface.co/datasets/shi-labs/physical-ai-bench-reason)     | [Link](./reason)   |
+
+## Leaderboard
+
+Leaderboard is available on [🤗 physical-ai-bench-leaderboard](https://huggingface.co/spaces/shi-labs/physical-ai-bench-leaderboard).
+
 
 ## Citation
 
