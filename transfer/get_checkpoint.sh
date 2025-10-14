@@ -1,7 +1,7 @@
 mkdir -p checkpoint
 
 mkdir -p checkpoint/sam2
-mkdir -p checkpoint/dover
+mkdir -p checkpoint/DOVER
 mkdir -p checkpoint/lpips
 mkdir -p checkpoint/video_depth_anything
 
