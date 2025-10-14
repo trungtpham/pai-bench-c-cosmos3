@@ -2,15 +2,14 @@
   <img src="assets/physical-ai-bench-logo-20250923.png" alt="Physical AI Bench Logo" width="64%">
 </p>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3.10-blue.svg" alt="Python Version">
-  <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
-  <img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Datasets-orange" alt="Hugging Face">
-  <a href="https://huggingface.co/spaces/shi-labs/physical-ai-bench-leaderboard">
-    <img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Leaderboard-orange" alt="Hugging Face">
-  </a>
-  <img src="https://img.shields.io/badge/Paper-Coming%20Soon-yellow" alt="Paper Coming Soon">
-</p>
+![Python Version](https://img.shields.io/badge/Python-3.10-blue.svg)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
+[![Hugging Face - Leaderboard](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Leaderboard-orange)](https://huggingface.co/spaces/shi-labs/physical-ai-bench-leaderboard)
+[![Hugging Face - Predict](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Predict-orange)](https://huggingface.co/datasets/shi-labs/physical-ai-bench-predict)
+[![Hugging Face - Transfer](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Transfer-orange)](https://huggingface.co/datasets/shi-labs/physical-ai-bench-transfer)
+[![Hugging Face - Reason](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Reason-orange)](https://huggingface.co/datasets/shi-labs/physical-ai-bench-reason)
+![Paper Coming Soon](https://img.shields.io/badge/Paper-Coming%20Soon-yellow)
+![Georgia Tech](https://img.shields.io/badge/Affiliation-Georgia%20Tech-ad9e66)
 
 ## Introduction
 
