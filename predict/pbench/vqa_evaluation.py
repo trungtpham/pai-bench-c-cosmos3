@@ -84,6 +84,7 @@ class QwenVLEvaluator:
             "max_model_len": 8192,
             "limit_mm_per_prompt": {"video": 1},
             "tensor_parallel_size": self.tensor_parallel_size,
+            "gpu_memory_utilization": 0.75,
         }
 
         self.model = LLM(**model_kwargs)

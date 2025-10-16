@@ -98,16 +98,16 @@ Use this command to evaluate videos using Visual Language Model (VLM) based judg
 uv run python evaluate_vqa.py \
 --prompt_file ${path_to_hf_dataset}/cosmos_predict2_bench_full_info.json \
 --vqa_questions_dir ${path_to_hf_dataset}/vqa \
---videos_path ${path_to_your_videos} \
---output_path ./evaluation_results/
+--video_dir ${path_to_your_videos} \
+--output_dir ./evaluation_results/
 ```
 
 **Argument Explanations:**
 
 - `--prompt_file`: Path to the benchmark prompt file from the downloaded dataset
 - `--vqa_questions_dir`: Path to the VQA questions directory from the downloaded dataset
-- `--videos_path`: Path to your organized video directory
-- `--output_path`: Directory where evaluation results will be saved
+- `--video_dir`: Path to your organized video directory
+- `--output_dir`: Directory where evaluation results will be saved
 
 ## Acknowledgments
 
