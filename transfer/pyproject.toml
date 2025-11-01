@@ -28,7 +28,6 @@ dependencies = [
     "pyarrow",
     "sqlalchemy",
     "tenacity",
-    "databricks-sql-connector",
     "cattrs",
     "click",
     "ray",

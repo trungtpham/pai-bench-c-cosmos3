@@ -177,7 +177,7 @@ memo
 evaluation_results/
 evaluation_*_results/
 data/
-models/
+predict/models/
 uv.lock
 
 
