@@ -1,8 +1,6 @@
 import argparse
 import logging
 import os
-import sys
-from pathlib import Path
 
 from pbench.utils import save_json
 from pbench.vqa_evaluation import compute_vqa_accuracy
@@ -66,7 +64,7 @@ def main():
             model_name=args.model_name,
             device=args.device,
             tensor_parallel_size=args.tensor_parallel_size,
-            enable_missing_videos=args.enable_missing_videos
+            enable_missing_videos=args.enable_missing_videos,
         )
 
         # Save results
