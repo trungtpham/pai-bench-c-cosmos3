@@ -40,30 +40,23 @@ def print0(*args, **kwargs):
 
 def dist_init():
     """Initialize distributed processing when launched with torchrun"""
-    # Set tokenizers parallelism to avoid fork warnings
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
     if torch.distributed.is_initialized():
         return
 
-    backend = "gloo" if os.name == "nt" else "nccl"
-    torch.distributed.init_process_group(backend=backend, init_method="env://")
-    torch.cuda.set_device(int(os.environ.get("LOCAL_RANK", "0")))
+    if "RANK" in os.environ or "WORLD_SIZE" in os.environ or "LOCAL_RANK" in os.environ:
+        backend = "gloo" if os.name == "nt" else "nccl"
+        torch.distributed.init_process_group(backend=backend, init_method="env://")
+        torch.cuda.set_device(int(os.environ.get("LOCAL_RANK", "0")))
 
 
 def distribute_list_to_rank(tasks):
     """Distribute tasks across ranks for data parallelism"""
     rank = get_rank()
     world_size = get_world_size()
-    tasks_per_rank = len(tasks) // world_size
-    remaining = len(tasks) % world_size
-    if rank < remaining:
-        start_idx = rank * (tasks_per_rank + 1)
-        end_idx = start_idx + tasks_per_rank + 1
-    else:
-        start_idx = rank * tasks_per_rank + remaining
-        end_idx = start_idx + tasks_per_rank
-    return tasks[start_idx:end_idx]
+    # Round-robin distribution: take every world_size-th element starting from rank
+    return tasks[rank::world_size]
 
 
 def gather_list_of_dict(data):
@@ -72,32 +65,48 @@ def gather_list_of_dict(data):
     if world_size == 1:
         return data
 
-    # Serialize the data
-    buffer = pickle.dumps(data)
-    storage = torch.ByteStorage.from_buffer(buffer)
-    tensor = torch.ByteTensor(storage).to("cuda")
+    rank = get_rank()
 
-    # Get sizes from all ranks
-    local_size = torch.LongTensor([tensor.numel()]).to("cuda")
-    size_list = [torch.LongTensor([0]).to("cuda") for _ in range(world_size)]
-    torch.distributed.all_gather(size_list, local_size)
-    size_list = [int(size.item()) for size in size_list]
-    max_size = max(size_list)
+    # Rank 0 generates the UUID and broadcasts it to all ranks
+    if rank == 0:
+        unique_id = str(uuid.uuid4())
+    else:
+        unique_id = None
 
-    # Pad tensor to max size
-    if tensor.numel() < max_size:
-        padding = torch.ByteTensor(max_size - tensor.numel()).fill_(0).to("cuda")
-        tensor = torch.cat([tensor, padding], dim=0)
+    # Broadcast the UUID from rank 0 to all other ranks
+    object_list = [unique_id]
+    torch.distributed.broadcast_object_list(object_list, src=0)
+    unique_id = object_list[0]
 
-    # Gather tensors from all ranks
-    tensor_list = [torch.ByteTensor(max_size).to("cuda") for _ in range(world_size)]
-    torch.distributed.all_gather(tensor_list, tensor)
+    # Create a temporary directory for all ranks to use
+    temp_dir = os.path.join(os.path.dirname(__file__), "temp", f"transfer_gather_{unique_id}")
+    os.makedirs(temp_dir, exist_ok=True)
 
-    # Deserialize gathered data
+    # Barrier to ensure directory is created
+    torch.distributed.barrier()
+
+    # Each rank saves its data to a file
+    rank_file = os.path.join(temp_dir, f"rank_{rank}.pkl")
+    with open(rank_file, "wb") as f:
+        pickle.dump(data, f)
+
+    # Synchronize all ranks and ensure data is written
+    if torch.cuda.is_available():
+        torch.cuda.synchronize()
+    torch.distributed.barrier()
+
+    # All ranks can now read all files
     gathered_data = []
-    for i, size in enumerate(size_list):
-        buffer = tensor_list[i][:size].cpu().numpy().tobytes()
-        gathered_data.extend(pickle.loads(buffer))
+    for r in range(world_size):
+        rank_file = os.path.join(temp_dir, f"rank_{r}.pkl")
+        with open(rank_file, "rb") as f:
+            rank_data = pickle.load(f)
+            gathered_data.extend(rank_data)
+
+    # Clean up - only rank 0 removes the directory
+    torch.distributed.barrier()
+    if rank == 0:
+        shutil.rmtree(temp_dir, ignore_errors=True)
 
     return gathered_data
 
@@ -598,6 +607,10 @@ def process_tasks_with_model(tasks: list[Task]) -> list[Task]:
     print0(f"Rank {rank}: Resizing videos with multi-threading...")
     tasks = resize_videos(tasks, num_workers=4)
 
+    if torch.distributed.is_initialized():
+        torch.distributed.barrier()
+    print0("All ranks completed video and caption loading")
+
     # Step 2: SAM Model Processing (load once, process all tasks)
     print0(f"Rank {rank}: Processing SAM segmentation...")
     sam_model = grounded_sam_v2.GroundedSAMV2()
@@ -609,6 +622,18 @@ def process_tasks_with_model(tasks: list[Task]) -> list[Task]:
     # Unload SAM model
     del sam_model
     torch.cuda.empty_cache()
+
+    if torch.distributed.is_initialized():
+        torch.distributed.barrier()
+    print0("All ranks completed SAM segmentation")
+
+    print0(f"Rank {rank}: Generating segmentation MP4s...")
+    for i, task in enumerate(tqdm(tasks, desc="Segmentation MP4 generation", disable=(rank != 0))):
+        tasks[i] = segmentation_mp4_single_task(task)
+
+    if torch.distributed.is_initialized():
+        torch.distributed.barrier()
+    print0("All ranks completed segmentation MP4 generation")
 
     # Step 3: DOVER Model Processing (load once, process all tasks)
     print0(f"Rank {rank}: Computing DOVER scores...")
@@ -622,6 +647,10 @@ def process_tasks_with_model(tasks: list[Task]) -> list[Task]:
     del dover_model
     torch.cuda.empty_cache()
 
+    if torch.distributed.is_initialized():
+        torch.distributed.barrier()
+    print0("All ranks completed DOVER scoring")
+
     # Step 4: Depth Model Processing (load once, process all tasks)
     print0(f"Rank {rank}: Computing depth maps...")
     depth_model = video_depth_anything.VideoDepthAnything()
@@ -634,10 +663,18 @@ def process_tasks_with_model(tasks: list[Task]) -> list[Task]:
     del depth_model
     torch.cuda.empty_cache()
 
+    if torch.distributed.is_initialized():
+        torch.distributed.barrier()
+    print0("All ranks completed depth estimation")
+
     # Step 5: Non-model processing (no GPU models needed)
     print0(f"Rank {rank}: Processing Canny edge detection...")
     for i, task in enumerate(tqdm(tasks, desc="Canny edge detection", disable=(rank != 0))):
         tasks[i] = canny_single_task(task)
+
+    if torch.distributed.is_initialized():
+        torch.distributed.barrier()
+    print0("All ranks completed Canny edge detection")
 
     print0(f"Rank {rank}: Processing blur analysis with 8 processes...")
     from concurrent.futures import ProcessPoolExecutor
@@ -646,16 +683,24 @@ def process_tasks_with_model(tasks: list[Task]) -> list[Task]:
         for i, future in enumerate(tqdm(futures, desc="Blur analysis", disable=(rank != 0))):
             tasks[i] = future.result()
 
+    if torch.distributed.is_initialized():
+        torch.distributed.barrier()
+    print0("All ranks completed blur analysis")
+
     print0(f"Rank {rank}: Computing mask IoU...")
     for i, task in enumerate(tqdm(tasks, desc="Mask IoU computation", disable=(rank != 0))):
         tasks[i] = mask_iou_single_task(task)
 
-    print0(f"Rank {rank}: Generating segmentation MP4s...")
-    for i, task in enumerate(tqdm(tasks, desc="Segmentation MP4 generation", disable=(rank != 0))):
-        tasks[i] = segmentation_mp4_single_task(task)
+    if torch.distributed.is_initialized():
+        torch.distributed.barrier()
+    print0("All ranks completed mask IoU computation")
 
     print0(f"Rank {rank}: Unloading data...")
     tasks = unload_task_data(tasks)
+
+    if torch.distributed.is_initialized():
+        torch.distributed.barrier()
+    print0("All ranks completed data unloading")
 
     return tasks
 

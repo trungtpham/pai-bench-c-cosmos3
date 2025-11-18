@@ -38,9 +38,10 @@ def dist_init():
     if torch.distributed.is_initialized():
         return
 
-    backend = "gloo" if os.name == "nt" else "nccl"
-    torch.distributed.init_process_group(backend=backend, init_method="env://")
-    torch.cuda.set_device(int(os.environ.get("LOCAL_RANK", "0")))
+    if "RANK" in os.environ or "WORLD_SIZE" in os.environ or "LOCAL_RANK" in os.environ:
+        backend = "gloo" if os.name == "nt" else "nccl"
+        torch.distributed.init_process_group(backend=backend, init_method="env://")
+        torch.cuda.set_device(int(os.environ.get("LOCAL_RANK", "0")))
 
 
 def gather_list_of_dict(data):
@@ -83,12 +84,12 @@ def gather_list_of_dict(data):
 def extract_video_id_from_filename(filename: str) -> str:
     """
     Extract video_id from filename.
-    Input format: task_0599__1.mp4 (video_id__seed) or task_0599.mp4
-    Output format: task_0599 (just video_id without extension)
+    Input format: task_0599_caption1.mp4 or task_0599.mp4
+    Output format: task_0599 (just video_id without caption)
     """
     stem = Path(filename).stem
-    if "__" in stem:
-        return stem.split("__")[0]
+    if "_caption" in stem:
+        return stem.split("_caption")[0]
     return stem
 
 @attrs.define

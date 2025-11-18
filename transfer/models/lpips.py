@@ -30,15 +30,7 @@ class LPIPS(model_utils.ModelInterface):
         return "paibench-transfer"
 
     def setup(self) -> None:
-        self.download_weights()
-        local_dir = model_utils.get_local_dir_for_weights_name(_DEFAULT_WEIGHTS_NAME)
-        ckpt_name = self.net + ".pth" if self.net != "vgg16" else "vgg.pth"
-        local_weights = local_dir / ckpt_name
-        if not local_weights.exists():
-            raise FileNotFoundError(f"Could not find {local_weights} model.")
-        self._model = lpips.LPIPS(
-            net=self.net, model_path=local_weights.as_posix()
-        )  # pyright: ignore[reportCallIssue]
+        self._model = lpips.LPIPS(net=self.net)
         if torch.cuda.is_available():
             self.device = "cuda"
             self._model.to(self.device)  # pyright: ignore[reportAttributeAccessIssue]

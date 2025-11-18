@@ -127,16 +127,10 @@ class ModelInterface(abc.ABC):
 
     def download_weights(self) -> None:
         local_location = _LOCAL_MODEL_PATH
-        logger.info("Checking if weights exist locally before downloading them.")
         list_missing_weights = self._check_if_weights_exist(local_location)
 
-        if not list_missing_weights:
-            logger.info(f"Weights exist under {local_location}, skipping download.")
-            return
-        else:
-            logger.info(
-                f"The following weights were not found, downloading from local path: {list_missing_weights}"
-            )
+        if list_missing_weights:
+            raise ValueError(f"Local location {local_location} does not contain the following weights: {list_missing_weights}")
 
 
 @ray.remote

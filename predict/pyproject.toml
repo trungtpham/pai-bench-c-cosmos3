@@ -35,9 +35,11 @@ dependencies = [
     "pycocoevalcap",
     "torch",
     "torchvision",
-    "qwen-vl-utils[decord]==0.0.8",
+    "qwen-vl-utils[decord]>=0.0.14",
     "vllm>=0.10.1",
     "dreamsim",
+    "openai>=1.0.0",
+    "python-dotenv",
 ]
 
 [build-system]

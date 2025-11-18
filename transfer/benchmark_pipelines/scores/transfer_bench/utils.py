@@ -41,7 +41,7 @@ def write_video(frames: np.ndarray, output_path: str, fps: float = 30) -> None:
     """
     expects a sequence of [H, W, 3] or [H, W] frames
     """
-    with imageio.get_writer(output_path, fps=fps, macro_block_size=8) as writer:
+    with imageio.get_writer(output_path, fps=fps, macro_block_size=1) as writer:
         for frame in frames:
             if len(frame.shape) == 2:  # single channel
                 frame_3channel = frame[:, :, None].repeat(3, axis=2)
@@ -100,7 +100,7 @@ def numpy_array_to_video_bytes(video_array: np.ndarray, fps: int = 30) -> bytes:
         buffer,
         format="mp4",  # pyright: ignore[reportArgumentType]
         fps=fps,
-        macro_block_size=8,
+        macro_block_size=1,
     ) as writer:
         for frame in video_array:
             writer.append_data(frame)  # pyright: ignore[reportAttributeAccessIssue]
