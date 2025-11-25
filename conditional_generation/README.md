@@ -1,7 +1,7 @@
-# PAI-Bench -- Transfer
+# PAI-Bench-C (Conditional Video Generation)
 
 [![Python Version](https://img.shields.io/badge/Python-3.10-blue.svg)](https://www.python.org/downloads/release/python-3100/)
-[![Hugging Face Datasets](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Datasets-orange)](https://huggingface.co/datasets/shi-labs/physical-ai-bench-transfer)
+[![Hugging Face Datasets](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Datasets-orange)](https://huggingface.co/datasets/shi-labs/physical-ai-bench-conditional-generation)
 
 ---
 
@@ -20,7 +20,7 @@
 
 The full benchmark dataset is hosted on the Hugging Face Hub.
 
-- **Hugging Face Link**: [physical-ai-bench-transfer](https://huggingface.co/datasets/shi-labs/physical-ai-bench-transfer)
+- **Hugging Face Link**: [physical-ai-bench-conditional-generation](https://huggingface.co/datasets/shi-labs/physical-ai-bench-conditional-generation)
 
 ## Setup
 
@@ -30,7 +30,7 @@ Follow these steps to set up the environment for running the benchmark.
 
 ```bash
 git clone git@github.com:SHI-Labs/physical-ai-bench.git
-cd physical-ai-bench/transfer
+cd physical-ai-bench/conditional_generation
 ```
 
 ### Install Dependencies
@@ -54,7 +54,7 @@ bash get_checkpoint.sh
 
 The overall evaluation pipeline is illustrated below:
 
-![Evaluation Pipeline](../assets/transfer-flowchart-20250928.png)
+![Evaluation Pipeline](../assets/conditional_generation-flowchart-20250928.png)
 
 ### 1. Prepare Your Result Videos
 
@@ -67,22 +67,23 @@ The `/path/to/your/results` directory should contain a `videos` subdirectory wit
 ```text
 /path/to/your/results/
 └── videos/
-    ├── task_0001__0.mp4
-    ├── task_0001__1.mp4
-    ├── task_0001__2.mp4
-    ├── task_0001__3.mp4
-    ├── task_0001__4.mp4
-    ├── task_0001__5.mp4
-    ├── task_0002__0.mp4
+    ├── task_0001.mp4
+    ├── task_0001_caption1.mp4
+    ├── task_0001_caption2.mp4
+    ├── task_0001_caption3.mp4
+    ├── task_0001_caption4.mp4
+    ├── task_0001_caption5.mp4
+    ├── task_0002.mp4
+    ├── task_0002_caption1.mp4
     ├── ...
-    └── task_0599__5.mp4
+    └── task_0599_caption5.mp4
 ```
 
 **File Naming Convention:**
 
-- Each video file follows the pattern: `{video_id}__{caption_id}.mp4`
+- Each task includes one base video: `{video_id}.mp4`, and 5 caption variations: `{video_id}_caption{caption_id}.mp4`
 - The video_id represents the task ID (e.g., task_0001, task_0002, etc.)
-- The caption_id represents different caption variations for the same video (0-5)
+- The caption_id represents different caption variations for the same video (1-5)
 
 ### 2. Run the Benchmark
 

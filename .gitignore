@@ -177,12 +177,12 @@ memo
 evaluation_results/
 evaluation_*_results/
 data/
-predict/models/
 uv.lock
 
 
-transfer/checkpoint/
-reason/dataset/
-reason/output/
+generation/models/
+conditional_generation/checkpoint/
+understanding/dataset/
+understanding/output/
 
 backup/

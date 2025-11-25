@@ -1,7 +1,7 @@
 [project]
-name = "paibench-transfer"
+name = "paibench-conditional-generation"
 version = "1.0.0"
-description = "PAI Bench Transfer: A Physical AI Benchmark for Transfer Learning"
+description = "PAI Bench Conditional Generation: A Physical AI Benchmark for Conditional Video Generation"
 authors = [{name = "PAI Bench Contributors", email = "ziqi002@e.ntu.edu.sg"}]
 license = "MIT"
 readme = "README.md"

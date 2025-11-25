@@ -1,19 +1,19 @@
-# PAI-Bench -- Reason
+# PAI-Bench-U (Video Understanding)
 
 [![Python Version](https://img.shields.io/badge/Python-3.10-blue.svg)](https://www.python.org/downloads/release/python-3100/)
-[![Hugging Face Datasets](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Datasets-orange)](https://huggingface.co/datasets/shi-labs/physical-ai-bench-reason)
+[![Hugging Face Datasets](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Datasets-orange)](https://huggingface.co/datasets/shi-labs/physical-ai-bench-understanding)
 
 ---
 
 ## Dataset
 
-PAI-Bench Reason evaluates understanding of physical scenes through video reasoning tasks.
+PAI-Bench Video Understanding evaluates understanding of physical scenes through video reasoning tasks.
 
 ## Evaluation
 
 The overall evaluation pipeline is illustrated below:
 
-![Evaluation Pipeline](../assets/reason-flowchart-20250928.png)
+![Evaluation Pipeline](../assets/understanding-flowchart-20250928.png)
 
 We use [lmms-eval](https://github.com/Leymore/lmms-eval) (pai-bench branch) for standardized evaluation.
 

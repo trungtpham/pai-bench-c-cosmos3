@@ -1,7 +1,7 @@
-# PAI-Bench -- Predict
+# PAI-Bench-G (Video Generation)
 
 [![Python Version](https://img.shields.io/badge/Python-3.10-blue.svg)](https://www.python.org/downloads/release/python-3100/)
-[![Hugging Face Datasets](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Datasets-orange)](https://huggingface.co/datasets/shi-labs/physical-ai-bench-predict)
+[![Hugging Face Datasets](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Datasets-orange)](https://huggingface.co/datasets/shi-labs/physical-ai-bench-generation)
 
 ---
 
@@ -20,7 +20,7 @@
 
 The full benchmark dataset is hosted on the Hugging Face Hub.
 
-- **Hugging Face Link**: [physical-ai-bench-predict](https://huggingface.co/datasets/shi-labs/physical-ai-bench-predict)
+- **Hugging Face Link**: [physical-ai-bench-generation](https://huggingface.co/datasets/shi-labs/physical-ai-bench-generation)
 
 ## Setup
 
@@ -30,7 +30,7 @@ Follow these steps to set up the environment for running the benchmark.
 
 ```bash
 git clone git@github.com:SHI-Labs/physical-ai-bench.git
-cd physical-ai-bench/predict
+cd physical-ai-bench/generation
 ```
 
 ### Install Dependencies
@@ -44,7 +44,7 @@ uv pip install --no-build-isolation "git+https://github.com/facebookresearch/det
 
 The overall evaluation pipeline is illustrated below:
 
-![Evaluation Pipeline](../assets/predict-flowchart-20250928.png)
+![Evaluation Pipeline](../assets/generation-flowchart-20250928.png)
 
 ### 1. Prepare Your Result Videos
 

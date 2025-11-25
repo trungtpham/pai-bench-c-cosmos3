@@ -5,9 +5,9 @@
 ![Python Version](https://img.shields.io/badge/Python-3.10-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 [![Hugging Face - Leaderboard](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Leaderboard-orange)](https://huggingface.co/spaces/shi-labs/physical-ai-bench-leaderboard)
-[![Hugging Face - Predict](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Predict-orange)](https://huggingface.co/datasets/shi-labs/physical-ai-bench-predict)
-[![Hugging Face - Transfer](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Transfer-orange)](https://huggingface.co/datasets/shi-labs/physical-ai-bench-transfer)
-[![Hugging Face - Reason](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Reason-orange)](https://huggingface.co/datasets/shi-labs/physical-ai-bench-reason)
+[![Hugging Face - Generation](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Generation-orange)](https://huggingface.co/datasets/shi-labs/physical-ai-bench-generation)
+[![Hugging Face - Conditional Generation](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Conditional%20Generation-orange)](https://huggingface.co/datasets/shi-labs/physical-ai-bench-conditional-generation)
+[![Hugging Face - Understanding](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Understanding-orange)](https://huggingface.co/datasets/shi-labs/physical-ai-bench-understanding)
 ![Paper Coming Soon](https://img.shields.io/badge/Paper-Coming%20Soon-yellow)
 ![Georgia Tech](https://img.shields.io/badge/Affiliation-Georgia%20Tech-ad9e66)
 ![CMU](https://img.shields.io/badge/Affiliation-CMU-c41230)
@@ -16,26 +16,25 @@
 
 Physical AI Bench (PAI-Bench) is a comprehensive benchmark suite for evaluating physical AI generation and understanding. PAI-Bench covers physical scenarios including autonomous vehicle (AV) driving, robotics, industry (smart space) and ego-centric everyday. PAI-Bench contains three subtasks:
 
-- **Predict**: Evaluates world foundation models' ability to predict future states given current states and control signals
-- **Transfer**: Focuses on world model generation capabilities with more complex control signals such as edges, segmentation masks, depth, etc.
-- **Reason**: Evaluates understanding of physical scenes.
+- **PAI-Bench-G (Video Generation)**: Evaluates world foundation models' ability to predict future states given current states and control signals
+- **PAI-Bench-C (Conditional Video Generation)**: Focuses on world model generation capabilities with more complex control signals such as edges, segmentation masks, depth, etc.
+- **PAI-Bench-U (Video Understanding)**: Evaluates understanding of physical scenes.
 
 <p align="center">
-  <img src="assets/physical-ai-bench-teaser-20250928.png" alt="Physical AI Bench Overview" width="100%">
+  <img src="assets/physical-ai-bench-teaser-20251125.png" alt="Physical AI Bench Overview" width="100%">
 </p>
 
 ## Datasets
 
-| Tasks        | Data                                                                                                 | Usage                              |
-| ------------ | ---------------------------------------------------------------------------------------------------- | ---------------------------------- |
-| **Predict**  | [🤗 physical-ai-bench-predict](https://huggingface.co/datasets/shi-labs/physical-ai-bench-predict)   | [Link](./predict)  |
-| **Transfer** | [🤗 physical-ai-bench-transfer](https://huggingface.co/datasets/shi-labs/physical-ai-bench-transfer) | [Link](./transfer) |
-| **Reason**   | [🤗 physical-ai-bench-reason](https://huggingface.co/datasets/shi-labs/physical-ai-bench-reason)     | [Link](./reason)   |
+| Tasks           | Data                                                                                                                             | Usage                            |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| **PAI-Bench-G** | [🤗 physical-ai-bench-generation](https://huggingface.co/datasets/shi-labs/physical-ai-bench-generation)                         | [Link](./generation)             |
+| **PAI-Bench-C** | [🤗 physical-ai-bench-conditional-generation](https://huggingface.co/datasets/shi-labs/physical-ai-bench-conditional-generation) | [Link](./conditional_generation) |
+| **PAI-Bench-U** | [🤗 physical-ai-bench-understanding](https://huggingface.co/datasets/shi-labs/physical-ai-bench-understanding)                   | [Link](./understanding)          |
 
 ## Leaderboard
 
 Leaderboard is available on [🤗 physical-ai-bench-leaderboard](https://huggingface.co/spaces/shi-labs/physical-ai-bench-leaderboard).
-
 
 ## Citation
 

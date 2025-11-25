@@ -27,7 +27,7 @@ class LPIPS(model_utils.ModelInterface):
 
     @property
     def conda_env_name(self) -> str:
-        return "paibench-transfer"
+        return "paibench-conditional-generation"
 
     def setup(self) -> None:
         self._model = lpips.LPIPS(net=self.net)

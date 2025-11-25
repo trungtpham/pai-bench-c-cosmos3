@@ -214,7 +214,7 @@ class GroundedSAMV2(model_utils.ModelInterface):
 
     @property
     def conda_env_name(self) -> str:
-        return "paibench-transfer"
+        return "paibench-conditional-generation"
 
     def _read_frames(
         self,

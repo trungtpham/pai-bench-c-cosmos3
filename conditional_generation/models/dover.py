@@ -215,7 +215,7 @@ class DOVERVideoTechnicalScorer(model_utils.ModelInterface):
 
     @property
     def conda_env_name(self) -> str:
-        return "paibench-transfer"
+        return "paibench-conditional-generation"
 
     def setup(self) -> None:
         if not self._utils_only:
