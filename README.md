@@ -43,11 +43,14 @@ Paper is coming soon!
 If you use Physical AI Bench in your research, please cite:
 
 ```bibtex
-@misc{PAIBench2025,
-  title={Physical AI Bench: A Comprehensive Benchmark for Physical AI Generation and Understanding},
-  author={Fengzhe Zhou and Jiannan Huang and Jialuo Li and Deva Ramanan and Humphrey Shi},
-  year={2025},
-  url={https://github.com/SHI-Labs/physical-ai-bench}
+@misc{zhou2025paibenchcomprehensivebenchmarkphysical,
+      title={PAI-Bench: A Comprehensive Benchmark For Physical AI}, 
+      author={Fengzhe Zhou and Jiannan Huang and Jialuo Li and Deva Ramanan and Humphrey Shi},
+      year={2025},
+      eprint={2512.01989},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2512.01989}, 
 }
 ```
 
