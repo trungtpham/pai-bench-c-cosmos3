@@ -8,7 +8,7 @@
 [![Hugging Face - Generation](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Generation-orange)](https://huggingface.co/datasets/shi-labs/physical-ai-bench-generation)
 [![Hugging Face - Conditional Generation](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Conditional%20Generation-orange)](https://huggingface.co/datasets/shi-labs/physical-ai-bench-conditional-generation)
 [![Hugging Face - Understanding](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Understanding-orange)](https://huggingface.co/datasets/shi-labs/physical-ai-bench-understanding)
-![Paper Coming Soon](https://img.shields.io/badge/Paper-Coming%20Soon-yellow)
+![Arxiv](https://arxiv.org/abs/2512.01989)
 ![Georgia Tech](https://img.shields.io/badge/Affiliation-Georgia%20Tech-ad9e66)
 ![CMU](https://img.shields.io/badge/Affiliation-CMU-c41230)
 
@@ -37,8 +37,6 @@ Physical AI Bench (PAI-Bench) is a comprehensive benchmark suite for evaluating 
 Leaderboard is available on [🤗 physical-ai-bench-leaderboard](https://huggingface.co/spaces/shi-labs/physical-ai-bench-leaderboard).
 
 ## Citation
-
-Paper is coming soon!
 
 If you use Physical AI Bench in your research, please cite:
 
