@@ -4,7 +4,11 @@
 [![Hugging Face Datasets](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Datasets-orange)](https://huggingface.co/datasets/shi-labs/physical-ai-bench-understanding)
 
 ---
+## 📰 News
 
+* **Integration Update:** PAI-Bench-U has been integrated into **[lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval)**! You can now use it directly there for a more convenient experience.
+
+---
 ## Dataset
 
 PAI-Bench Video Understanding evaluates understanding of physical scenes through video reasoning tasks.
