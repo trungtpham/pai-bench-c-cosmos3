@@ -12,6 +12,7 @@
 ![Georgia Tech](https://img.shields.io/badge/Affiliation-Georgia%20Tech-ad9e66)
 ![CMU](https://img.shields.io/badge/Affiliation-CMU-c41230)
 
+
 ## Introduction
 
 Physical AI Bench (PAI-Bench) is a comprehensive benchmark suite for evaluating physical AI generation and understanding. PAI-Bench covers physical scenarios including autonomous vehicle (AV) driving, robotics, industry (smart space) and ego-centric everyday. PAI-Bench contains three subtasks:
@@ -23,6 +24,14 @@ Physical AI Bench (PAI-Bench) is a comprehensive benchmark suite for evaluating 
 <p align="center">
   <img src="assets/physical-ai-bench-teaser-20251125.png" alt="Physical AI Bench Overview" width="100%">
 </p>
+
+
+---
+
+## 📰 News
+* **[2026-02-21]** 🎉 Exciting news! PAI-Bench has been accepted to **CVPR 2026**!
+
+---
 
 ## Datasets
 
