@@ -29,6 +29,7 @@ Physical AI Bench (PAI-Bench) is a comprehensive benchmark suite for evaluating 
 ---
 
 ## 📰 News
+* **[2026-04-09]** 🎉 Exciting news! PAI-Bench has been selected as **Oral** presentation!
 * **[2026-02-21]** 🎉 Exciting news! PAI-Bench has been accepted to **CVPR 2026**!
 
 ---
