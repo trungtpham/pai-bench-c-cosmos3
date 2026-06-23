@@ -18,15 +18,23 @@ _GROUNDED_SAM2_PATH = PROJECT_ROOT / "third_party/Grounded-SAM-2"
 
 # pyright: reportMissingImports=false
 # pyright: reportAttributeAccessIssue=false
+import os
 sys.path.append(_GROUNDED_SAM2_PATH)
 import hydra
+import sam2 as _sam2_pkg
 from hydra import initialize_config_dir
 from sam2.build_sam import build_sam2, build_sam2_video_predictor
 from sam2.sam2_image_predictor import SAM2ImagePredictor
 from transformers import AutoModelForZeroShotObjectDetection, AutoProcessor
 
+# Config dir resolution — mirrors imaginaire4/grounded_sam_v2.py:
+#   1. Prefer <grounded-sam2>/sam2_configs/ (has both sam2 and sam2.1 configs)
+#   2. Fall back to the installed sam2 package root (sam2_hiera_l.yaml is there)
+_sam2_configs_dir = str(_GROUNDED_SAM2_PATH / "sam2_configs")
+if not os.path.isdir(_sam2_configs_dir):
+    _sam2_configs_dir = str(pathlib.Path(_sam2_pkg.__file__).parent)
 hydra.core.global_hydra.GlobalHydra.instance().clear()
-initialize_config_dir(f"{_GROUNDED_SAM2_PATH}/sam2/configs/sam2")
+initialize_config_dir(_sam2_configs_dir)
 
 
 GROUNDING_DINO_HF_WEIGHTS_NAME = "IDEA-Research/grounding-dino-tiny"
@@ -69,11 +77,14 @@ def sample_points_from_masks(masks, num_points):
             points.append(np.array([]))
             continue
 
-        # resampling if there's not enough points
+        # Deterministic sampling: seed from mask content so same mask → same points.
+        # Using the global np.random is non-deterministic across pipeline runs and
+        # causes recall variance of ~1/N_objects between otherwise identical pipelines.
+        rng = np.random.default_rng(seed=int(indices.sum()) & 0x7FFFFFFF)
         if len(indices) < num_points:
-            sampled_indices = np.random.choice(len(indices), num_points, replace=True)
+            sampled_indices = rng.choice(len(indices), num_points, replace=True)
         else:
-            sampled_indices = np.random.choice(len(indices), num_points, replace=False)
+            sampled_indices = rng.choice(len(indices), num_points, replace=False)
 
         sampled_points = indices[sampled_indices]
         points.append(sampled_points)
@@ -155,6 +166,7 @@ def pack2tensor(
     # metadata for each tracking frame (e.g. which direction it's tracked)
     inference_state["tracking_has_started"] = False
     inference_state["frames_already_tracked"] = {}
+    inference_state["frames_tracked_per_obj"] = {}  # required by sam2>=1.1.0
     # Warm up the visual backbone and cache the image feature on frame 0
 
     """
@@ -274,6 +286,8 @@ class GroundedSAMV2(model_utils.ModelInterface):
         output: dict
             The predicted objects.
         """
+        if isinstance(image, np.ndarray) and not image.data.c_contiguous:
+            image = np.ascontiguousarray(image)
         inputs = self.grounding_dino_processor(
             images=image,
             text=caption,
@@ -287,7 +301,7 @@ class GroundedSAMV2(model_utils.ModelInterface):
         results = self.grounding_dino_processor.post_process_grounded_object_detection(
             outputs,
             inputs.input_ids,
-            threshold=_BOX_THRESHOLD,
+            box_threshold=_BOX_THRESHOLD,
             text_threshold=_TEXT_THRESHOLD,
             target_sizes=[image_shape],
         )
